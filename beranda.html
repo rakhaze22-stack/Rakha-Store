@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAKHA STORE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: black;
+      font-family: 'Orbitron', sans-serif;
+      color: white;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      z-index: 0;
+    }
+
+    /* Efek gelombang teks */
+    h1 {
+      position: absolute;
+      top: 15%;
+      width: 100%;
+      text-align: center;
+      font-size: 4em;
+      font-weight: 700;
+      letter-spacing: 8px;
+      z-index: 2;
+      color: white;
+      text-shadow: 0 0 20px rgba(255,255,255,0.4);
+      display: inline-block;
+      user-select: none;
+    }
+
+    h1 span {
+      display: inline-block;
+      animation: wave 2s infinite ease-in-out;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); }
+      25% { transform: translateY(-10px); }
+      50% { transform: translateY(0); }
+      75% { transform: translateY(10px); }
+    }
+
+    /* Huruf bergelombang satu per satu */
+    h1 span:nth-child(1) { animation-delay: 0s; }
+    h1 span:nth-child(2) { animation-delay: 0.1s; }
+    h1 span:nth-child(3) { animation-delay: 0.2s; }
+    h1 span:nth-child(4) { animation-delay: 0.3s; }
+    h1 span:nth-child(5) { animation-delay: 0.4s; }
+    h1 span:nth-child(6) { animation-delay: 0.5s; }
+    h1 span:nth-child(7) { animation-delay: 0.6s; }
+    h1 span:nth-child(8) { animation-delay: 0.7s; }
+    h1 span:nth-child(9) { animation-delay: 0.8s; }
+    h1 span:nth-child(10){ animation-delay: 0.9s; }
+
+    /* Kotak pencarian */
+    .search-box {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      width: 60%;
+      max-width: 500px;
+      z-index: 2;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      color: white;
+      font-size: 1rem;
+      padding: 5px 10px;
+    }
+
+    .search-box .icon {
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .search-box .close {
+      margin-left: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+<body>
+  <canvas id="waveCanvas"></canvas>
+
+  <h1>
+    <span>R</span><span>A</span><span>K</span><span>H</span><span>A</span>
+    <span>&nbsp;</span>
+    <span>S</span><span>T</span><span>O</span><span>R</span><span>E</span>
+  </h1>
+
+  <div class="search-box">
+    <span class="icon">🔍</span>
+    <input type="text" placeholder="Search..." />
+    <span class="close">✖</span>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("waveCanvas");
+    const ctx = canvas.getContext("2d");
+    let w, h, t = 0;
+    
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    function draw() {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, w, h);
+      ctx.lineWidth = 2;
+
+      for (let i = 0; i < 15; i++) {
+        ctx.strokeStyle = `rgba(255,255,255,${0.1 + i * 0.05})`;
+        ctx.beginPath();
+        for (let x = 0; x < w; x += 10) {
+          const y = h/2 + Math.sin(x * 0.01 + t + i) * 50 + Math.cos(x * 0.02 - t/2) * 20;
+          ctx.lineTo(x, y + i * 15);
+        }
+        ctx.stroke();
+      }
+
+      t += 0.02;
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+</body>
+</html>
